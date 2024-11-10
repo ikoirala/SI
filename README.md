@@ -1,89 +1,28 @@
+# deepSI (Modified)
 
-# deepSI
- 
-Dynamical System Identification using python incorporating numerous powerful deep learning methods. (deepSI = deep System Identification)
+Dynamical System Identification using Python, incorporating powerful deep learning methods. This version is based on the work by Gerben Beintema, with specific modifications to support version 3.13 for compatibility with specific dependencies.
 
 ## Goals of deepSI
 
-The goal of deepSI is to provide a platform for the development and use of (deep) dynamical system identification methods. 
-Furthermore, the deepSI module (i.e. toolbox) is implemented such that anyone can use it without requiring deep expert knowledge in either system identification or machine learning. 
-Lastly, the usage of deepSI is intuitive and often requiring effectively no more than 10 lines of code as seen in the example below. 
+The aim of deepSI is to provide a comprehensive platform for developing and applying (deep) dynamical system identification methods. It’s designed to be accessible, requiring minimal prior knowledge in system identification or machine learning, and often requires only a few lines of code.
 
-## Documentation and Installation
+## Installation
 
-The deepSI Documentation and Installation details are available at [deepsi.readthedocs.io/en/latest](https://deepsi.readthedocs.io/en/latest/). 
+To install this specific version of deepSI with necessary dependencies, follow these steps:
 
-## Illustrative Example
-
-```python
-import deepSI
-from matplotlib import pyplot as plt
-train, test = deepSI.datasets.Silverbox() # Automaticly downloaded (and cashed) the Silverbox system data
-                                          # It also splitted the data into two instances of System_data
-plt.plot(train.y) #train.y = measured outputs (and train.u = the system inputs)
-plt.plot(test.y)
-plt.ylabel('y'); plt.xlabel('t'); plt.legend(['train','test']); plt.show()
+```bash
+conda install -c anaconda git
+pip install git+https://github.com/ikoirala/SI@main
 ```
 
-![image](docs/images/silverboxfigure.png)
+## Documentation
 
-```python
-#ARX model
-sys_SS_linear = deepSI.fit_systems.Sklearn_io_linear(na=2, nb=5) 
-sys_SS_linear.fit(train) #fit the ARX data 
-test_simulation_SS_linear = sys_SS_linear.apply_experiment(test)
+The documentation and installation guide for the original deepSI package can be found here: [deepSI Documentation](https://deepsi.readthedocs.io/en/latest/).
 
-#Encoder method with neural networks (Beintema, et al. 2020a)
-sys_encoder = deepSI.fit_systems.SS_encoder(nx=4, na=10, nb=10) 
-#batch optimization using PyTorch for back propagation. 
-sys_encoder.fit(train_sys_data=train, val_sys_data=test[:5000], epochs=50, batch_size=256, loss_kwargs={'nf':50})
-test_simulation_encoder = sys_encoder.apply_experiment(test)
+## Original Work and Credits
 
-#plotting the residuals
-plt.plot(test.y)
-plt.plot(test.y-test_simulation_SS_linear.y)
-plt.plot(test.y-test_simulation_encoder.y)
-plt.ylabel('y'); plt.xlabel('t'); 
-plt.legend(['Measured','Simulation ARX', 'Simulation SS encoder'])
-plt.show()
-```
+This project is based on the original work by Gerben Beintema. You can find the original code here: [GitHub Repository](https://github.com/GerbenBeintema/deepSI).
 
-![test set results ARX and SS encoder](docs/images/silverbox_arx_encoder.png)
+If you wish to cite the original deepSI library, please use:
 
-## Main Features
-
-* Numerous System Identification methods
-    * Linear methods (e.g. ARX, Linear State Space)
-    * Nonlinear methods (e.g. NARX, GP, SVM, Sub-space Encoder)
-    * User defined identification methods 
-* Direct access to most popular system identification datasets and benchmarks (e.g. [nonlinearbenchmarks.org](http://www.nonlinearbenchmark.org/) and [DaISy](https://homes.esat.kuleuven.be/~tokka/daisydata.html))
-* Numerous evaluation and analysis tools (e.g. RMS, NRMS, n-step NRMS)
-* Numerous predefined data generation systems (e.g. openAI gym, Wiener, Lorenz attractor, video output systems)
-* Being able to accommodate user defined data generation system with ease.
-
-## Featured Projects utilizing deepSI
-
-Gerben Beintema, Roland Toth, Maarten Schoukens; Nonlinear State-Space Identification using Deep Encoder Networks; Submitted to l4dc 2021a; [Github Repository](https://github.com/GerbenBeintema/SS-encoder-WH-Silver), [Arxiv](https://arxiv.org/abs/2012.07721)
-
-Gerben Beintema, Roland Toth, Maarten Schoukens; Nonlinear State-space Model Identification from Video Data using Deep Encoders; Submitted to SYSID 2021b; [Github repository](https://github.com/GerbenBeintema/SS-encoder-video), [Arxiv](https://arxiv.org/abs/2012.07721)
-
-## Contributing
-
-deepSI is in ongoing development and anyone can contribute to any part of module.
-
-
-## Contact
-
-Feel free to contact me directly for any question or issues related to deepSI.
-
-Main developer: PhD candidate Gerben Beintema at the TU/e. Control Systems. g.i.beintema@tue.nl
-
-## Citation
-
-When citing deepSI please use
-
-> Gerben Beintema, Roland Toth, Maarten Schoukens. Nonlinear State-Space Identification using Deep Encoder Networks; Proceedings of the 3rd Conference on Learning for Dynamics and Control, PMLR 144:241-250, 2021. [Github](https://github.com/GerbenBeintema/deepSI), [Published version](http://proceedings.mlr.press/v144/beintema21a/beintema21a.pdf)
-
-## License
-
-BSD 3-Clause License
+> Gerben Beintema, Roland Toth, Maarten Schoukens. Nonlinear State-Space Identification using Deep Encoder Networks; Proceedings of the 3rd Conference on Learning for Dynamics and Control, PMLR 144:241-250, 2021. [Published version](http://proceedings.mlr.press/v144/beintema21a/beintema21a.pdf)
